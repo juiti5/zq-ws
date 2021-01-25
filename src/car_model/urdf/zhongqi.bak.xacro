@@ -1,0 +1,154 @@
+<?xml version="1.0" ?>
+
+<robot name="$(arg roboname)" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926835897931"/>
+  <xacro:property name="wheelbase" value="1.05"/>     
+  <xacro:property name="tread" value="0.685"/> 
+  <xacro:property name="wheel_radius" value="0.37"/> 
+
+  <link name="base_link">
+  </link>
+
+  <link name="base_footprint">
+  </link>
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="${-wheelbase/2} 0 ${wheel_radius}" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+  </joint>
+
+  <link name="lf_wheel">
+  </link>
+
+  <joint name="base_lf_joint" type="fixed">
+    <origin xyz="${wheelbase/2} ${tread/2} ${wheel_radius}" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="lf_wheel"/>
+  </joint>
+
+  <link name="lr_wheel">
+  </link>
+
+  <joint name="base_lr_joint" type="fixed">
+    <origin xyz="${-wheelbase/2} ${tread/2} ${wheel_radius}" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="lr_wheel"/>
+  </joint>
+
+  <link name="rf_wheel">
+  </link>
+
+  <joint name="base_rf_joint" type="fixed">
+    <origin xyz="${wheelbase/2} ${-tread/2} ${wheel_radius}" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="rf_wheel"/>
+  </joint>
+
+  <link name="rr_wheel">
+  </link>
+
+  <joint name="base_rr_joint" type="fixed">
+    <origin xyz="${-wheelbase/2} ${-tread/2} ${wheel_radius}" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="rr_wheel"/>
+  </joint>
+
+  <link name="front_laser_link">
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="front_laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="front_laser_link"/>
+    <origin xyz="${0.25+wheelbase/2} 0 0.3" rpy="3.14 0 0"/>
+  </joint>
+
+  <link name="rear_laser_link">
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="rear_laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_laser_link"/>
+    <origin xyz="${-(0.3+wheelbase/2)} 0 0.3" rpy="3.14 0 3.14"/>
+  </joint>
+
+  <!--link name="left_laser_link">
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="left_laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="left_laser_link"/>
+    <origin xyz="0 1.0 0.3" rpy="0 0.05 0"/>
+  </joint>
+
+  <link name="right_laser_link">
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="right_laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="right_laser_link"/>
+    <origin xyz="0 -1.0 0.3" rpy="0 0.05 3.14"/>
+  </joint-->
+  
+  <link name="tag" />
+  <joint name="tag_link_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="tag"/>
+    <origin xyz="${-(0.3+wheelbase/2)} 0.0 1.5"/>
+  </joint>
+  
+  <link name="tag2" />
+  <joint name="tag2_link_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="tag2"/>
+    <origin xyz="${-(wheelbase/2-0.35)} 0.0 1.5"/>
+  </joint>
+
+  <link name="imu_link" />
+  <joint name="imu_link_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0.0 0.0 0.3" rpy="0 3.14 0"/>
+  </joint>
+
+  <link name="sonar_lf_link" />
+  <joint name="sonar_lf_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="sonar_lf_link"/>
+    <origin xyz="0.78 ${tread/2} 0" rpy="0 0 ${PI/2}"/>
+  </joint>
+
+  <link name="sonar_lb_link" />
+  <joint name="sonar_lb_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="sonar_lb_link"/>
+    <origin xyz="0.28 ${tread/2} 0" rpy="0 0 ${PI/2}"/>
+  </joint>
+
+  <link name="sonar_rf_link" />
+  <joint name="sonar_rf_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="sonar_rf_link"/>
+    <origin xyz="0.78 -${tread/2} 0" rpy="0 0 -${PI/2}"/>
+  </joint>
+
+  <link name="sonar_rb_link" />
+  <joint name="sonar_rb_link_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="sonar_rb_link"/>
+    <origin xyz="0.28 -${tread/2} 0" rpy="0 0 -${PI/2}"/>
+  </joint>
+
+</robot>

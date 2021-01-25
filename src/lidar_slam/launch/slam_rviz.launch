@@ -1,0 +1,7 @@
+<launch> 
+
+  <arg name="rvizconfig" default="$(find lidar_slam)/rviz/create_map.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" output="screen"/>
+  
+</launch>
+

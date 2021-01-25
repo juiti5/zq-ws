@@ -1,0 +1,8 @@
+<launch>
+
+   	<node pkg="record_path_planner" type="load_path" name="load_path" output="screen">
+              <rosparam file="$(find record_path_planner)/param/load_path.yaml" command="load" ns=""/>
+        </node>
+        
+</launch>
+

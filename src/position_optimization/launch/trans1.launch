@@ -1,0 +1,11 @@
+<launch>
+  <node name="trans_u2m_node" pkg="position_optimization" type="trans_u2m_node" output="screen">
+
+    <param name="trans_x" value="-0.36" />
+	<param name="trans_y" value="11.85" />
+	<param name="trans_yaw" value="0.01" />
+  </node>
+  
+    <node name="calibration_map" pkg="position_optimization" type="calibration_map.py" output="screen" args="/home/lrd/map/000.trans.yaml">
+  </node>
+</launch>

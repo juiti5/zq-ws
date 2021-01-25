@@ -1,0 +1,34 @@
+<launch> 
+ 
+  <!--include  file="$(find driver_sim)/launch/sim_driver.launch"/-->
+
+  <include  file="$(find car_model)/launch/spawn_car.launch"/>
+  <!-- rviz -->
+  <arg name="rvizconfig" default="$(find lidar_slam)/rviz/create_map.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" output="screen"/>
+
+   <!-- 键盘遥控 -->
+  <node name="keyboard_control" pkg="keyboard_control" type="keyboard_control_node">
+    <param name="linear_min" value="2" />
+    <param name="linear_max" value="-2" />
+    <param name="linear_step" value="0.2" />
+
+    <param name="angular_min" value="1" />
+    <param name="angular_max" value="-1" />
+    <param name="angular_step" value="0.314" />
+    <remap from="/cmd_vel" to="/smart/cmd_vel" />
+  </node>
+
+    <!-- 建图节点 -->
+  <node name="cartographer_node" pkg="cartographer_ros"
+    type="cartographer_node" args="
+        -configuration_directory $(find cartographer_ros)/configuration_files
+        -configuration_basename smart_mapping.lua"
+    output="screen">
+  </node>
+    
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+
+  <!--node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" /-->
+</launch>
+

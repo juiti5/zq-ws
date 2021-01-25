@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#name=""
+if [ ! -n "$1" ];then 
+    name=$(date "+%Y-%m-%d-%H:%M:%S")
+else
+    name=$1
+fi
+
+echo "Finish Trajectory 0"
+rosservice call /finish_trajectory 0
+echo "Save pbstream"
+rosservice call /write_state "{filename: '/home/autolabor/map/$name.pbstream'}"
+echo "Converting map"
+rosrun cartographer_ros cartographer_pbstream_to_ros_map -map_filestem=/home/autolabor/map/$name -pbstream_filename=/home/autolabor/map/$name.pbstream -resolution=0.05
+echo "Saved"
+
+#touch $name.trans.yaml
+#python  /home/autolabor/zhongqi_ws/scripts/add_data.py /home/autolabor/map/$name.trans.yaml
+#python /home/autolabor/zhongqi_ws/scripts/calibration_map.py /home/autolabor/map/$name.trans.yaml

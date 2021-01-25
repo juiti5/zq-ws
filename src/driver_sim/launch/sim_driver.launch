@@ -1,0 +1,36 @@
+<launch>
+
+    <node name="sim_driver" pkg="driver_sim" type="driver_sim_node" output="screen">
+        <param name="wheelbase" value="2.85" />
+        <param name="ratio_vel_cmd_" value="3.0" />
+        <param name="ratio_steer_cmd" value="1.2" />
+        <param name="max_steer_" value="0.6" />
+        <param name="p" value="30.0" />
+        <param name="i" value="60.0" />
+        <param name="d" value="0.0" />
+        <param name="ratio_out" value="1" />
+    </node>
+
+    <node pkg="driver_sim" name="cmd_vel_to_ackermann" type="cmd_vel_to_ackermann_drive.py" output="screen">
+    </node>
+
+   <!-- 键盘遥控 -->
+    <!--node name="keyboard_control" pkg="keyboard_control" type="keyboard_control_node">
+      <param name="linear_min" value="3" />
+      <param name="linear_max" value="-3" />
+      <param name="linear_step" value="0.2" />
+
+      <param name="angular_min" value="1" />
+      <param name="angular_max" value="-1" />
+      <param name="angular_step" value="0.314" />
+    </node-->
+
+  <!-- ros_control rrbot launch file -->
+  <include file="$(find parkingdemo_gazebo)/launch/parkingdemo_world.launch" />
+
+  <!-- rviz -->
+  <!--arg name="rvizconfig" default="$(find driver_sim)/rviz/robot.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" output="screen"/-->
+
+</launch>
+

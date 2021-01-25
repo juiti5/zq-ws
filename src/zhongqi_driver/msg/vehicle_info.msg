@@ -1,0 +1,9 @@
+float32 speed
+int32 steer
+int32 gear
+float32 voltage_12
+float32 voltage_48
+float32 motor_current
+float32 yaw
+float32 accelerator
+int32 battery

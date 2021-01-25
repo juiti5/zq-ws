@@ -1,0 +1,59 @@
+<launch> 
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <!--arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"-->
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <!--include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find parkingdemo_gazebo)/worlds/parkingdemo.world"/>
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include-->
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <!--param name="robot_description"
+    command="$(find xacro)/xacro -(666)-inorder '$(find parkingdemo_description)/urdf/fusion_13_structure.urdf.xacro'" /-->
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <!--node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model parkingdemo -param robot_description">
+  </node-->
+
+  <!-- ros_control rrbot launch file -->
+  <!--include file="$(find parkingdemo_control)/launch/parkingdemo_control.launch" /-->
+  <include  file="$(find driver_sim)/launch/sim_driver.launch"/>
+
+  <!-- rviz -->
+  <arg name="rvizconfig" default="$(find lidar_slam)/rviz/create_map.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" output="screen"/>
+
+   <!-- 键盘遥控 -->
+  <node name="keyboard_control" pkg="keyboard_control" type="keyboard_control_node">
+    <param name="linear_min" value="2" />
+    <param name="linear_max" value="-2" />
+    <param name="linear_step" value="0.2" />
+
+    <param name="angular_min" value="1" />
+    <param name="angular_max" value="-1" />
+    <param name="angular_step" value="0.314" />
+  </node>
+
+    <!-- 建图节点 -->
+  <node name="cartographer_node" pkg="cartographer_ros"
+    type="cartographer_node" args="
+        -configuration_directory $(find cartographer_ros)/configuration_files
+        -configuration_basename zhongqi_mapping.lua"
+    output="screen">
+  </node>
+    
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+
+  <!--node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" /-->
+</launch>
+

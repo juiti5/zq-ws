@@ -1,0 +1,105 @@
+base_local_planner: teb_local_planner/TebLocalPlannerROS
+TebLocalPlannerROS:
+  odom_topic: /odom
+  map_frame: /map
+  # Trajectory
+
+  teb_autosize: True
+  dt_ref: 0.5
+  dt_hysteresis: 0.1
+  global_plan_overwrite_orientation: False
+  max_global_plan_lookahead_dist: 3.0
+  feasibility_check_no_poses: 2
+
+  # Robot
+
+  max_vel_x: 0.15
+  max_vel_x_backwards: 0.15
+  max_vel_y: 0.0
+  max_vel_theta: 0.26 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega)
+  acc_lim_x: 0.2
+  acc_lim_theta: 0.2
+
+  # ********************** Carlike robot parameters ********************
+  min_turning_radius: 3.0 # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+  wheelbase: 1.1 # Wheelbase of our robot
+  cmd_angle_instead_rotvel: True # stage simulator takes the angle instead of the rotvel as input (twist message)
+  # ********************************************************************
+
+  footprint_model:
+    types: "polygon"
+    #  vertices: [[-0.4, -0.5], [1.25, -0.5], [1.25, 0.5], [-0.4, 0.5]]
+    vertices: [[-0.925, -0.5], [0.725, -0.5], [0.725, 0.5], [-0.925, 0.5]]
+  # GoalTolerance
+
+  xy_goal_tolerance: 0.5
+  yaw_goal_tolerance: 0.1
+  free_goal_vel: True
+
+  # Viapoint
+  global_plan_viapoint_sep: 0.5
+
+  # Obstacles
+
+  min_obstacle_dist: 0.8 #0.6 This value must also include our robot's expansion, since footprint_model is set to "line".
+  inflation_dist: 1.0 #0.7
+  dynamic_obstacle_inflation_dist: 0.6
+  include_costmap_obstacles: True
+  costmap_obstacles_behind_robot_dist: 3.0
+  obstacle_association_force_inclusion_factor: 2.0
+  obstacle_association_cutoff_factor: 4.0
+  obstacle_poses_affected: 6 #30
+  #costmap_converter_plugin: ""
+  costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSRANSAC"
+  costmap_converter_spin_thread: True
+  costmap_converter_rate: 5
+
+  ## Configure plugins (namespace move_base/TebLocalPlannerROS/PLUGINNAME)
+  ## The parameters must be added for each plugin separately
+  costmap_converter/CostmapToLinesDBSRANSAC:
+    cluster_max_distance: 1.3
+    cluster_min_pts: 6
+    ransac_inlier_distance: 0.15
+    ransac_min_inliers: 10
+    ransac_no_iterations: 2000
+    ransac_remainig_outliers: 3
+    ransac_convert_outlier_pts: True
+    ransac_filter_remaining_outlier_pts: False
+    convex_hull_min_pt_separation: 0.1
+
+  # Optimization
+
+  no_inner_iterations: 10
+  no_outer_iterations: 10
+  optimization_activate: True
+  optimization_verbose: False
+  penalty_epsilon: 0.1
+  weight_max_vel_x: 2
+  weight_max_vel_theta: 1
+  weight_acc_lim_x: 1
+  weight_acc_lim_theta: 1
+  weight_kinematics_nh: 300
+  weight_kinematics_forward_drive: 1
+  weight_kinematics_turning_radius: 1
+  weight_optimaltime: 0.5
+  weight_obstacle: 500 #100
+  weight_dynamic_obstacle: 10 # not in use yet
+  weight_viapoint: 0
+  weight_inflation: 5 #1
+
+  # Homotopy Class Planner
+
+  enable_homotopy_class_planning: True
+  enable_multithreading: True
+  simple_exploration: False
+  max_number_classes: 4
+  selection_cost_hysteresis: 1.0
+  selection_obst_cost_scale: 1.0
+  selection_alternative_time_cost: False
+  roadmap_graph_no_samples: 15
+  roadmap_graph_area_width: 5
+  h_signature_prescaler: 0.5
+  h_signature_threshold: 0.1
+  obstacle_keypoint_offset: 0.1
+  obstacle_heading_threshold: 0.45
+  visualize_hc_graph: False

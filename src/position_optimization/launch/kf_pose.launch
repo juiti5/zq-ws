@@ -1,0 +1,12 @@
+<launch>
+  <!--param name="rosparam set use_sim_time trueuse_sim_time" value="true" /-->
+  <node name="kf_pose_node" pkg="position_optimization" type="pose_kf_node" output="screen">
+    <param name="q" value="0.002" />
+    <param name="r" value="0.43" />
+    <!--q:0.0001; q:3000-->
+  </node>
+  <!--node name="kf_yaw_node" pkg="position_optimization" type="yaw_kf_node" output="screen">
+    <param name="q" value="1.0" />
+    <param name="r" value="1.0" />
+  </node-->
+</launch>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+            <!--arg name="world_name" value="worlds/empty.world"/-->
+            <arg name="world_name" value="$(find car_model)/worlds/myworld.world"/>
+            <arg name="paused" value="false"/>
+            <arg name="use_sim_time" value="true"/>
+            <arg name="gui" value="true"/>
+            <arg name="headless" value="false"/> 
+            <arg name="recording" value="false"/>
+            <arg name="debug" value="false"/>
+            <arg name="respawn_gazebo" value="false"/>
+        </include>
+
+    <!--node name="keyboard_control" pkg="keyboard_control" type="keyboard_control_node">
+      <param name="linear_min" value="3" />
+      <param name="linear_max" value="-3" />
+      <param name="linear_step" value="0.2" />
+
+      <param name="angular_min" value="1" />
+      <param name="angular_max" value="-1" />
+      <param name="angular_step" value="0.314" />
+      <remap from="/cmd_vel" to="/smart/cmd_vel" />
+    </node-->
+
+	<include file="$(find car_model)/launch/spawn_xacro.launch">
+
+		<arg name="x" value="0.0"/>
+		<arg name="y" value="0.0"/>
+		<arg name="z" value="0.0"/>
+		<arg name="urdf_robot_file" value="$(find car_model)/urdf/smart.xacro"/>
+		<arg name="robot_name" value="smart"/>
+
+	</include>
+
+  <include file="$(find car_model)/launch/control.launch">
+    <arg name="robot_name" value="smart"/>
+    <arg name="config_file" value="smart_control_config.yaml"/>
+  </include>
+
+</launch>

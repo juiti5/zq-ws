@@ -1,0 +1,42 @@
+---
+#---standard pioneer footprint---
+#---(in meters)---
+#footprint: [ [0.254, -0.0508], [0.1778, -0.0508], [0.1778, -0.1778], [-0.1905, -0.1778], [-0.254, 0], [-0.1905, 0.1778], [0.1778, 0.1778], [0.1778, 0.0508], [0.254, 0.0508] ]
+footprint: [ [-0.35,-0.41], [1.25,-0.41], [1.25,0.41], [-0.35,0.41] ] #base_footprint
+#footprint: [ [-0.85,-0.42], [0.85,-0.42], [0.85,0.42], [-0.85,0.42] ] #center_link
+
+#footprint: [ [-0.1,-0.125], [0.5,-0.125], [0.5,0.125], [-0.1,0.125] ]
+
+transform_tolerance: 0.6
+map_type: costmap
+
+obstacle_layer:
+  enabled: true
+  obstacle_range: 6.0
+  raytrace_range: 6.5
+  inflation_radius: 0.5
+  track_unknown_space: true #false
+  combination_method: 1
+
+  observation_sources: scan_1 scan_2 #scan_3 scan_4
+  scan_1: { data_type: LaserScan, topic: scan_1, marking: true, clearing: true }
+  scan_2: { data_type: LaserScan, topic: scan_2, marking: true, clearing: true }
+#   scan_3: {data_type: LaserScan, topic: scan_3, marking: true, clearing: true}
+#   scan_4: {data_type: LaserScan, topic: scan_4, marking: true, clearing: true}
+
+#  sonar_layer:
+#    enabled: true
+#    no_readings_timeout: 1.0
+#    clear_threshold: 0.001
+#    mark_threshold: 0.996
+#    topics: ["/sonar0", "/sonar1", "/sonar2", "/sonar3"] 
+#    clear_on_max_reading: true
+    
+inflation_layer:
+  enabled: true
+  cost_scaling_factor: 10.0 # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius: 0.5 # max. distance from an obstacle at which costs are incurred for planning paths.
+
+static_layer:
+  enabled: true
+  map_topic: "/map"

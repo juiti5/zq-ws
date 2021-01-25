@@ -1,0 +1,14 @@
+<launch>
+  <!--node name="robot_start" pkg="zhongqi_driver" type="server_connect.py" output="screen"  >
+  </node-->
+
+  <include file="$(find zhongqi_driver)/launch/driver.launch" >
+  </include>
+  
+  <include file="$(find zhongqi_driver)/launch/control.launch" >
+  </include>
+
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+    <arg name="port" value="8081"/>
+  </include>
+</launch>

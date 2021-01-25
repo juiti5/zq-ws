@@ -1,0 +1,3 @@
+<launch>
+    <node args="-d $(find zhongqi_navigation)/rviz/teb_navigation.rviz" name="rviz" pkg="rviz" type="rviz" />
+</launch>

@@ -1,0 +1,13 @@
+cartographer保存地图方式：
+
+stap_1  完成轨迹，不再接受数据
+rosservice call /finish_trajectory 0
+
+stap_2  序列化保存当前状态
+rosservice call /write_state $(pwd)/mymap.pbstream
+
+stap_3 将pbstream转化为pgm和yaml文件
+rosrun cartographer_ros cartographer_pbstream_to_ros_map -map_filestem=$(pwd)/mymap -pbstream_filename=$(pwd)/mymap.pbstream -resolution=0.05
+ 
+
+ 

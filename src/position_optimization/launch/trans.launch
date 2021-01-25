@@ -1,0 +1,12 @@
+<launch>
+  <node name="u2m_node" output="screen" pkg="position_optimization" type="trans_u2m_node">
+
+    <param name="trans_x" value="1.7327" />
+    <param name="trans_y" value="12.3027" />
+    <param name="trans_yaw" value="-0.00410143" />
+    <param name="c_x" value="0" />  
+    <param name="c_y" value="0" />
+    <param name="c_yaw" value="0" />
+    <remap from="/move_base_simple/goal_demo" to="/move_base_simple/goal" />
+  </node>
+</launch>
