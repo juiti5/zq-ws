@@ -1,5 +1,6 @@
 #include "path.h"
 
+
 using namespace HybridAStar;
 
 
